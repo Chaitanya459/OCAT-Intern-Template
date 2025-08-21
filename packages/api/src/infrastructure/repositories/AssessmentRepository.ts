@@ -21,7 +21,7 @@ export class AssessmentRepository implements IAssessmentRepository {
     // TODO: Implement Find All
     const rows = await Assessment.findAll({
       order: [[ `createdAt`, `DESC` ]],
-      where: { deletedAt: null as any }, // soft-delete filter for later use Task2
+      where: { deletedAt: null as any }, // soft-delete filter for later use Task
     });
 
     return rows.map((r) => r.get({ plain: true })) as unknown as AssessmentType[];

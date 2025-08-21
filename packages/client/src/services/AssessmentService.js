@@ -21,9 +21,10 @@ export class AssessmentService {
       return Axios.get(`/assessments`, {
         params: {
           // TODO: Add any query parameters here for filtering, pagination, etc.
+          // Pagination and sorting taken care in front end UI
         },
       })
-        .then((response) => response.data.data.assessments);
+        .then((response) => response.data);
     } catch (err) {
       throw new Error(`${err.response.statusText} - ${err.response.data.message}`);
     }
