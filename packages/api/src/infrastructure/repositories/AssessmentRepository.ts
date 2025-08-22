@@ -20,18 +20,14 @@ export class AssessmentRepository implements IAssessmentRepository {
   public async findAll(): Promise<AssessmentType[]> {
     // TODO: Implement Find All
     const rows = await Assessment.findAll({
-      order: [[ `createdAt`, `DESC` ]],
-      where: { deletedAt: null as any }, // soft-delete filter for later use Task
+      order: [[ `createdAt`, `DESC` ]], // Paranoid enabled, so deletedAt is handled automatically
     });
 
     return rows.map((r) => r.get({ plain: true })) as unknown as AssessmentType[];
   }
 
   public async delete(id: number): Promise<boolean> {
-    const [ count ] = await Assessment.update(
-      { deletedAt: new Date() },
-      { where: { id } },
-    );
+    const count = await Assessment.destroy({ where: { id } });
     return count > 0;
   }
 }

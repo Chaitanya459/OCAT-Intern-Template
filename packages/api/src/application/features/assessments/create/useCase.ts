@@ -1,8 +1,6 @@
-import { error } from 'console';
 import { inject, injectable } from 'inversify';
 import { IUseCase } from 'src/types/shared';
 import { Assessment, CreateAssessmentDTO } from 'src/types';
-import { NUMBER } from 'sequelize';
 import { IAssessmentRepository } from '../../../contracts';
 
 @injectable()
