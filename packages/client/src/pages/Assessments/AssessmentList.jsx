@@ -38,6 +38,26 @@ export const AssessmentList = () => {
     { accessorKey: `riskLevel`, header: `Risk` },
   ];
 
+  // Function to color the riskLevel column based on its value
+  // This function is used to set the background color of the riskLevel column cells
+  // It returns a style object with the appropriate background color based on the risk level
+  // The risk level can be 'low', 'medium', 'high', or undefined
+  const colorcolumns = (row) => {
+    const riskColors = row.original.riskLevel?.toLowerCase() || ``;
+    console.log(`Risk Level`, riskColors);
+
+    switch (riskColors) {
+      case `low`:
+        return { backgroundColor: `lightGreen` };
+      case `medium`:
+        return { backgroundColor: `orange` };
+      case `high`:
+        return { backgroundColor: `red` };
+      default:
+        return { backgroundColor: `white` };
+    }
+  };
+
   // Setting Up React Table with sorting + pagination
   const table = useReactTable({
     columns,
@@ -57,10 +77,11 @@ export const AssessmentList = () => {
   if (!assessments?.length) {
     return <div className="container py-3">No data was found </div>;
   }
+
   return <div className="container py-3">
     <h3 className="mb-3">Assessment List</h3>
 
-    <table className="table table-striped table-bordered align-middle">
+    <table className="table  table-striped table-bordered align-middle">
       <thead className="table-light">
         {table.getHeaderGroups().map((hg) =>
           <tr key={hg.id}>
@@ -84,10 +105,16 @@ export const AssessmentList = () => {
       <tbody>
         {table.getRowModel().rows.map((row) =>
           <tr key={row.id}>
-            {row.getVisibleCells().map((cell) =>
-              <td key={cell.id}>
+            {row.getVisibleCells().map((cell) => {
+              // Only apply color to the "riskLevel" column
+              const isRiskCol = cell.column.id === `riskLevel`;
+              return <td
+                key={cell.id}
+                style={isRiskCol ? colorcolumns(row) : undefined}
+              >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
-              </td>)}
+              </td>;
+            })}
           </tr>)}
       </tbody>
     </table>
