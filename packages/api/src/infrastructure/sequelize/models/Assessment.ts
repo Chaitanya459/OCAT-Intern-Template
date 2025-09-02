@@ -70,6 +70,7 @@ Assessment.init({
     type: DataTypes.DATE,
   },
 }, {
+  paranoid: true, // Enables soft delete
   sequelize,
   tableName: `assessments`,
 });
